@@ -13,7 +13,7 @@ interface PropsPlayer {
   link_url: string;
 }
 
-export default function registerPlayer() {
+export default function RegisterPlayer() {
   const [player, setPlayer] = useState({
     name: "",
     team: "",
