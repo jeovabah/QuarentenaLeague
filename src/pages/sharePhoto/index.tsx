@@ -1,4 +1,5 @@
 import { Box, Button, Input, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { AiOutlineStar } from "react-icons/ai";
 import Capture from "../../components/Capture";
@@ -8,9 +9,19 @@ import { Header } from "../../components/Header";
 import { PositionChoice } from "../../components/PositionChoice";
 
 export default function SharePhoto() {
-  const [position, setPosition] = useState("");
-  const [name, setName] = useState("");
+  const router = useRouter();
+  const {
+    link_url,
+    position: positionPlayer,
+    team,
+    name: namePlayer,
+  } = router.query;
+  const [position, setPosition] = useState(
+    positionPlayer ? positionPlayer : ""
+  );
+  const [name, setName] = useState(namePlayer ? namePlayer : "");
   const [photo, setPhoto] = useState("");
+
   return (
     <>
       <Header title="Compartilhar minha figurinha" />
@@ -36,7 +47,7 @@ export default function SharePhoto() {
         </Box>
 
         <Box mt="2.5rem">
-          <CardPhoto setPosition={setName} />
+          <CardPhoto setPosition={setName} uri={link_url ? link_url : ""} />
         </Box>
 
         <Box>
@@ -61,7 +72,7 @@ export default function SharePhoto() {
             padding={"1rem"}
             margin={"1rem 0"}
           >
-            Bater Foto
+            Compartilhar Figurinha
           </Button>
         </Box>
       </Container>

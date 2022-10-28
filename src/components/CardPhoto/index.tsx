@@ -1,7 +1,7 @@
 import { Image, Input } from "@chakra-ui/react";
 
 interface Props {
-  uri?: string;
+  uri?: any;
   setPosition?: any;
 }
 
@@ -21,7 +21,9 @@ export const CardPhoto = ({ uri, setPosition }: Props) => {
         <Image
           src={uri}
           alt="campo"
-          w="100%"
+          maxW="250px"
+          borderRadius={"10px"}
+          margin={"0 auto"}
           style={{
             objectFit: "contain",
           }}

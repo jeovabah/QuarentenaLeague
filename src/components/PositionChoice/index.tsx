@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import campo from "../../assets/campo.png";
 interface Props {
-  position: string;
+  position: any;
 }
 export const PositionChoice = ({ position }: Props) => {
   return (

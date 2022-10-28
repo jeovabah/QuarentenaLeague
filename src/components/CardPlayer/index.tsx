@@ -1,10 +1,13 @@
 import { Box, Image, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 interface Props {
   title: string;
   player: any;
 }
 export const CardPlayer = ({ title, player }: Props) => {
+  const router = useRouter();
+  //roter to player for page seach
   return (
     <Box
       w={"100%"}
@@ -14,6 +17,17 @@ export const CardPlayer = ({ title, player }: Props) => {
       borderBottom={"1px solid var(--primary)"}
       display={"flex"}
       alignItems={"center"}
+      onClick={() => {
+        router.push(`/sharePhoto`, {
+          pathname: `/sharePhoto`,
+          query: {
+            link_url: player?.link_url,
+            position: player?.position,
+            team: player?.team,
+            name: title,
+          },
+        });
+      }}
       justifyContent={"space-between"}
     >
       <Text fontWeight={600} color={"white"}>
