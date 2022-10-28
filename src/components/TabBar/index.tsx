@@ -17,10 +17,10 @@ export const BottomTabBar = () => {
       padding={"1.2rem"}
     >
       <Box cursor={"pointer"} w={"50%"}>
-        <Link href={"/"}>
+        <Link href={"/player"}>
           <Text
             textAlign={"center"}
-            color={router.pathname == "/" ? "var(--primary)" : "white"}
+            color={router.pathname == "/player" ? "var(--primary)" : "white"}
             fontWeight={"bold"}
             display={"flex"}
             alignItems={"center"}
@@ -34,22 +34,6 @@ export const BottomTabBar = () => {
       </Box>
       <Box cursor={"pointer"} w={"50%"}>
         <Link href={"/teams"}>
-          <Text
-            textAlign={"center"}
-            color={router.pathname == "/teams" ? "var(--primary)" : "white"}
-            fontWeight={"bold"}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            gap={"0.5rem"}
-          >
-            {<IoFootballOutline size={20} />}
-            Times
-          </Text>
-        </Link>
-      </Box>
-      <Box cursor={"pointer"} w={"50%"}>
-        <Link href={"/register"}>
           <Text
             textAlign={"center"}
             color={router.pathname == "/teams" ? "var(--primary)" : "white"}
