@@ -1,9 +1,14 @@
 import { Avatar, Box, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
 interface Props {
   title: string;
   description: string;
+  players: any;
 }
-export const CardTeam = ({ title, description }: Props) => {
+export const CardTeam = ({ title, description, players }: Props) => {
+  useEffect(() => {
+    console.log(players);
+  }, []);
   return (
     <Box
       w={"100%"}

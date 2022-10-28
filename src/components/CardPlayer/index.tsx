@@ -17,12 +17,14 @@ export const CardPlayer = ({ title, player }: Props) => {
       justifyContent={"space-between"}
     >
       <Text fontWeight={600} color={"white"}>
-        {title}
+        {title} <br />
+        {player?.position}
       </Text>
       <Image
+        objectFit={"cover"}
         src={player?.link_url}
         alt={"Dan Abramov"}
-        boxSize={"2rem"}
+        boxSize={"5rem"}
         borderRadius={"50%"}
       />
     </Box>

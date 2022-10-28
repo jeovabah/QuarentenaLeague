@@ -8,104 +8,9 @@ import { database } from "../../firebase/firebase";
 export default function Teams() {
   const [search, setSearch] = useState("");
   const [players, setPlayers] = useState<any>([]);
-  const [teams, setTeams] = useState([
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-    {
-      title: "Time 1",
-      description: "Descrição do time 1",
-    },
-    {
-      title: "Time 2",
-      description: "Descrição do time 2",
-    },
-    {
-      title: "Time 3",
-      description: "Descrição do time 3",
-    },
-  ]);
+  const [teams, setTeams] = useState<any[]>([]);
+  const [teamsRepeat, setTeamsRepeat] = useState<any[]>([]);
+  const [teamsNoReapeat, setTeamsNoReapeat] = useState<any[]>([]);
 
   async function readPlayerData() {
     get(ref(database, "player/")).then((snapshot) => {
@@ -126,31 +31,29 @@ export default function Teams() {
     });
   }
 
-  // return array of player, que tem o mesmo time
-  function getPlayersByTeam(team: string) {
-    return players.filter((player: any) => player.team === team);
-  }
-  const returnPlayer = () => {
-    const arrayPlayersTeam = [];
-    players.forEach((element: any) => {
-      console.log(element.team);
+  async function readTeamData() {
+    get(ref(database, "team/")).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const teamsAll = Object.entries(data).map(([key, value]: any) => {
+          return {
+            team: value.team,
+          };
+        });
+        setTeams(teamsAll);
+      } else {
+        console.log("No data available");
+      }
     });
-  };
+  }
+
   useEffect(() => {
-    if (teams) {
-      returnPlayer();
-    }
-  }, [teams]);
+    readTeamData();
+  }, []);
 
   useEffect(() => {
     readPlayerData();
   }, []);
-
-  const includesFilter = () => {
-    return teams.filter((team) => {
-      return team.title.toLowerCase().includes(search.toLowerCase());
-    });
-  };
 
   return (
     <>
@@ -170,17 +73,25 @@ export default function Teams() {
           />
         </Box>
         <Box mt="20px" display={"grid"} gap={"1rem"} marginBottom={"80px"}>
-          {teams
-            .filter((team) => {
-              return team.title.toLowerCase().includes(search.toLowerCase());
-            })
-            .map((team, index) => (
-              <CardTeam
-                key={index}
-                title={team.title}
-                description={team.description}
-              />
-            ))}
+          {teams.length > 0 &&
+            teams
+              .filter((team) => {
+                return team.team.toLowerCase().includes(search.toLowerCase());
+              })
+              .map((team, index) => (
+                <>
+                  <CardTeam
+                    key={index}
+                    players={
+                      players.filter((player: any) => {
+                        return player.team === team.team;
+                      }) || []
+                    }
+                    title={team.team}
+                    description={team.description}
+                  />
+                </>
+              ))}
         </Box>
       </Container>
     </>

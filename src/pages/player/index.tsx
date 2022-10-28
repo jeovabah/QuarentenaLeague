@@ -15,7 +15,7 @@ export default function Player() {
         const teams = Object.entries(data).map(([key, value]: any) => {
           return {
             player: value.player,
-            position: value.team,
+            position: value.position,
             link_url: value.link_url,
             team: value.team,
           };
