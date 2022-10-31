@@ -5,6 +5,13 @@ import { Container } from "../../components/Container";
 import { Header } from "../../components/Header";
 import { get, ref } from "firebase/database";
 import { database } from "../../firebase/firebase";
+interface PlayerProps {
+  linl_url: string;
+  player: string;
+  position: string;
+  team: string;
+}
+
 export default function Teams() {
   const [search, setSearch] = useState("");
   const [players, setPlayers] = useState<any>([]);
@@ -19,7 +26,7 @@ export default function Teams() {
         const teams = Object.entries(data).map(([key, value]: any) => {
           return {
             player: value.player,
-            position: value.team,
+            position: value.position,
             link_url: value.link_url,
             team: value.team,
           };
@@ -55,6 +62,18 @@ export default function Teams() {
     readPlayerData();
   }, []);
 
+  const filterTeamsWithPlayersCadastred = () => {
+    const teamsWithPlayersCadastred = teams.filter((team) => {
+      return players.some((player: any) => {
+        return player.team === team.team;
+      });
+    });
+    setTeamsRepeat(teamsWithPlayersCadastred);
+  };
+  useEffect(() => {
+    filterTeamsWithPlayersCadastred();
+  }, [teams]);
+
   return (
     <>
       <Header title="Times Cadastrados" />
@@ -73,24 +92,39 @@ export default function Teams() {
           />
         </Box>
         <Box mt="20px" display={"grid"} gap={"1rem"} marginBottom={"80px"}>
-          {teams.length > 0 &&
+          {/* {teams.length > 0 &&
             teams
               .filter((team) => {
                 return team.team.toLowerCase().includes(search.toLowerCase());
               })
               .map((team, index) => (
-                <>
-                  <CardTeam
-                    key={index}
-                    players={
-                      players.filter((player: any) => {
-                        return player.team === team.team;
-                      }) || []
-                    }
-                    title={team.team}
-                    description={team.description}
-                  />
-                </>
+                <CardTeam
+                  key={index}
+                  players={
+                    players.filter((player: any) => {
+                      return player.team === team.team;
+                    }) || []
+                  }
+                  title={team.team}
+                  description={team.description}
+                />
+              ))} */}
+          {teamsRepeat.length > 0 &&
+            teamsRepeat
+              .filter((team) => {
+                return team.team.toLowerCase().includes(search.toLowerCase());
+              })
+              .map((team, index) => (
+                <CardTeam
+                  key={index}
+                  players={
+                    players.filter((player: any) => {
+                      return player.team === team.team;
+                    }) || []
+                  }
+                  title={team.team}
+                  description={team.description}
+                />
               ))}
         </Box>
       </Container>
