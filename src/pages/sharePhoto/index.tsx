@@ -1,6 +1,6 @@
 import { Box, Button, Input, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AiOutlineStar } from "react-icons/ai";
 import Capture from "../../components/Capture";
 import { CardPhoto } from "../../components/CardPhoto";
@@ -11,16 +11,11 @@ import { PositionChoice } from "../../components/PositionChoice";
 export default function SharePhoto() {
   const router = useRouter();
   const {
-    link_url,
-    position: positionPlayer,
-    team,
-    name: namePlayer,
-  } = router.query;
-  const [position, setPosition] = useState(
-    positionPlayer ? positionPlayer : ""
-  );
-  const [name, setName] = useState(namePlayer ? namePlayer : "");
+    query: { link_url, position, team, name },
+  } = router;
   const [photo, setPhoto] = useState("");
+  const [namePlayer, setNamePlayer] = useState("");
+  const [positionPlayer, setPositionPlayer] = useState("");
 
   return (
     <>
@@ -46,8 +41,19 @@ export default function SharePhoto() {
           </Box>
         </Box>
 
-        <Box mt="2.5rem">
-          <CardPhoto setPosition={setName} uri={link_url ? link_url : ""} />
+        <Box mt="0.5rem">
+          <Text
+            color={"white"}
+            textAlign="center"
+            fontWeight={"bold"}
+            mb="0.5rem"
+          >
+            {name}
+          </Text>
+          <CardPhoto
+            setPosition={setNamePlayer}
+            uri={link_url ? link_url : ""}
+          />
         </Box>
 
         <Box>
@@ -60,7 +66,7 @@ export default function SharePhoto() {
             border={"none"}
             padding={"1rem"}
             margin={"1rem 0"}
-            onChange={(e) => setPosition(e.target.value)}
+            onChange={(e) => setPositionPlayer(e.target.value)}
           />
         </Box>
         <Box m="0 auto">

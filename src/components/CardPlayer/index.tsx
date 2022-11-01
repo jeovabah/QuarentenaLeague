@@ -21,9 +21,9 @@ export const CardPlayer = ({ title, player }: Props) => {
         router.push(`/sharePhoto`, {
           pathname: `/sharePhoto`,
           query: {
-            link_url: player?.link_url,
-            position: player?.position,
-            team: player?.team,
+            link_url: player.link_url,
+            position: player.position,
+            team: player.team,
             name: title,
           },
         });

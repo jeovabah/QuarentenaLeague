@@ -31,10 +31,6 @@ export default function Player() {
     readPlayerData();
   }, []);
 
-  useEffect(() => {
-    console.log(players);
-  }, [players]);
-
   return (
     <>
       <Header title="Jogadores" />
