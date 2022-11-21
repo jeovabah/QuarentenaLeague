@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { IoFootballOutline } from "react-icons/io5";
 import { AiOutlineTeam } from "react-icons/ai";
+import { GiNewspaper } from "react-icons/gi";
 export const BottomTabBar = () => {
   const router = useRouter();
   return (
@@ -45,6 +46,22 @@ export const BottomTabBar = () => {
           >
             {<IoFootballOutline size={20} />}
             Times
+          </Text>
+        </Link>
+      </Box>
+      <Box cursor={"pointer"} w={"50%"}>
+        <Link href={"/album"}>
+          <Text
+            textAlign={"center"}
+            color={router.pathname == "/album" ? "var(--primary)" : "white"}
+            fontWeight={"bold"}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={"0.5rem"}
+          >
+            {<GiNewspaper size={20} />}
+            Album
           </Text>
         </Link>
       </Box>
