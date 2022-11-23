@@ -1,16 +1,18 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
-import { CardPlayer } from "../CardPlayer";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { CardPlayerSticker } from "../CardPlayerSticker";
-
+import ponta from "../../assets/ponta-png.png";
+import Image from "next/image";
 export const CardStickerAlbum = ({ players, team }: any) => {
   return (
     <Box
       display={"flex"}
-      h={"100vh"}
+      h={"90vh"}
+      overflow={"auto"}
       alignItems={"center"}
       flexDirection={"column"}
       padding={"1rem"}
       background={"#202024"}
+      position={"relative"}
       borderRadius={"0.5rem"}
       boxShadow={"0px 0px 10px rgba(0, 0, 0, 0.25)"}
     >

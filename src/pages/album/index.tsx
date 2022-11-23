@@ -1,4 +1,7 @@
-import { Text } from "@chakra-ui/react";
+import "react-slideshow-image/dist/styles.css";
+import { Slide } from "react-slideshow-image";
+
+import { Box, Text } from "@chakra-ui/react";
 import { get, ref } from "firebase/database";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -6,14 +9,16 @@ import { CardStickerAlbum } from "../../components/CardStickerAlbum";
 import { CardTeam } from "../../components/CardTeam";
 import { Container } from "../../components/Container";
 import { database } from "../../firebase/firebase";
+import { BottomTabBar } from "../../components/TabBar";
 export default function Album() {
   const [search, setSearch] = useState("");
   const [players, setPlayers] = useState<any>([]);
   const [teams, setTeams] = useState<any[]>([]);
   const [teamsRepeat, setTeamsRepeat] = useState<any[]>([]);
-  const [teamsNoReapeat, setTeamsNoReapeat] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   async function readPlayerData() {
+    setLoading(true);
     get(ref(database, "player/")).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
@@ -25,6 +30,7 @@ export default function Album() {
             team: value.team,
           };
         });
+        setLoading(false);
         setPlayers(teams);
       } else {
         console.log("No data available");
@@ -33,6 +39,7 @@ export default function Album() {
   }
 
   async function readTeamData() {
+    setLoading(true);
     get(ref(database, "team/")).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
@@ -41,6 +48,7 @@ export default function Album() {
             team: value.team,
           };
         });
+        setLoading(false);
         setTeams(teamsAll);
       } else {
         console.log("No data available");
@@ -69,33 +77,39 @@ export default function Album() {
   }, [teams]);
 
   return (
-    <Container>
-      {teamsRepeat.length > 0 &&
-        teamsRepeat
-          .filter((team) => {
-            return team.team.toLowerCase().includes(search.toLowerCase());
-          })
-          .map((team, index) => (
-            <CardStickerAlbum
-              key={index}
-              players={
-                players.filter((player: any) => {
-                  return player.team === team.team;
-                }) || []
-              }
-              team={team.team}
-            />
-            // <CardTeam
-            //   key={index}
-            //   players={
-            //     players.filter((player: any) => {
-            //       return player.team === team.team;
-            //     }) || []
-            //   }
-            //   title={team.team}
-            //   description={team.description}
-            // />
-          ))}
-    </Container>
+    <Box
+      p={"10px"}
+      bg={"#121214"}
+      display={"flex"}
+      flexDirection={"column"}
+      w={"100%"}
+      minH={"100vh"}
+      h={"100%"}
+    >
+      {!loading &&
+        teamsRepeat.length > 0 &&
+        teams.length > 0 &&
+        players.length > 0 && (
+          <Slide easing="ease" autoplay={false}>
+            {teamsRepeat.length > 0 &&
+              teamsRepeat
+                .filter((team) => {
+                  return team.team.toLowerCase().includes(search.toLowerCase());
+                })
+                .map((team, index) => (
+                  <CardStickerAlbum
+                    key={index}
+                    players={
+                      players.filter((player: any) => {
+                        return player.team === team.team;
+                      }) || []
+                    }
+                    team={team.team}
+                  />
+                ))}
+          </Slide>
+        )}
+      <BottomTabBar />
+    </Box>
   );
 }

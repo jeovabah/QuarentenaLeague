@@ -3,9 +3,11 @@ import { Box, Image, Text } from "@chakra-ui/react";
 export const CardPlayerSticker = ({ player }: any) => {
   return (
     <Box
-      w={"45%"}
+      w={"48%"}
       p={"20px 10px"}
       background={"#202024"}
+      boxShadow={"0px 0px 10px rgba(0, 0, 0, 0.25)"}
+      mt={"1rem"}
       borderRadius={"10px"}
       borderBottom={"1px solid var(--primary)"}
       display={"flex"}
@@ -19,9 +21,9 @@ export const CardPlayerSticker = ({ player }: any) => {
       <Image
         objectFit={"cover"}
         src={player?.link_url}
-        alt={"Dan Abramov"}
-        boxSize={"5rem"}
-        borderRadius={"50%"}
+        alt={player?.player}
+        boxSize={"8rem"}
+        borderRadius={"25%"}
       />
       <Text fontWeight={400} color={"white"} mt="0.5rem">
         {player?.position} <br />
