@@ -35,7 +35,7 @@ export default function Player() {
     <>
       <Header title="Jogadores" />
       <Container>
-        <Box display={"grid"} gap=".5rem" mt="1rem">
+        <Box display={"grid"} gap=".5rem" mt="1rem" mb="2rem">
           {players.length > 0 &&
             players.map((player: any, index: number) => {
               return (

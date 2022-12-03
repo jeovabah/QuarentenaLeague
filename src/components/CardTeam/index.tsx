@@ -35,7 +35,7 @@ export const CardTeam = ({ title, description, players }: Props) => {
             alignItems={"center"}
             justifyContent={"center"}
             gap={"1rem"}
-            maxH={"280px"}
+            minH={"320px"}
             w={"100%"}
           >
             {players &&
