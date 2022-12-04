@@ -1,7 +1,7 @@
 import "react-slideshow-image/dist/styles.css";
 import { Slide } from "react-slideshow-image";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import { get, ref } from "firebase/database";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -86,6 +86,18 @@ export default function Album() {
       minH={"100vh"}
       h={"100%"}
     >
+      {teams.length == 0 && (
+        <Spinner
+          position={"absolute"}
+          top={"50%"}
+          left={"50%"}
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      )}
       {!loading &&
         teamsRepeat.length > 0 &&
         teams.length > 0 &&

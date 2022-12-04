@@ -17,10 +17,10 @@ export default function Teams() {
   const [players, setPlayers] = useState<any>([]);
   const [teams, setTeams] = useState<any[]>([]);
   const [teamsRepeat, setTeamsRepeat] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [teamsNoReapeat, setTeamsNoReapeat] = useState<any[]>([]);
 
   async function readPlayerData() {
-    await get(ref(database, "player/")).then((snapshot) => {
+    get(ref(database, "player/")).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
         const teams = Object.entries(data).map(([key, value]: any) => {
@@ -39,7 +39,7 @@ export default function Teams() {
   }
 
   async function readTeamData() {
-    await get(ref(database, "team/")).then((snapshot) => {
+    get(ref(database, "team/")).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
         const teamsAll = Object.entries(data).map(([key, value]: any) => {
@@ -55,12 +55,11 @@ export default function Teams() {
   }
 
   useEffect(() => {
-    async () => {
-      setLoading(true);
-      await readPlayerData();
-      await readTeamData();
-      setLoading(false);
-    };
+    readTeamData();
+  }, []);
+
+  useEffect(() => {
+    readPlayerData();
   }, []);
 
   const filterTeamsWithPlayersCadastred = () => {
@@ -79,13 +78,16 @@ export default function Teams() {
     <>
       <Header title="Times Cadastrados" />
       <Container>
-        {loading && (
+        {teamsRepeat.length == 0 && (
           <Spinner
+            position={"absolute"}
+            top={"50%"}
+            left={"50%"}
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
             size="xl"
-            color="var(--primary)"
-            position="absolute"
-            top="50%"
-            left="50%"
           />
         )}
         <Box>
@@ -102,12 +104,27 @@ export default function Teams() {
           />
         </Box>
         <Box mt="20px" display={"grid"} gap={"1rem"} marginBottom={"80px"}>
+          {/* {teams.length > 0 &&
+            teams
+              .filter((team) => {
+                return team.team.toLowerCase().includes(search.toLowerCase());
+              })
+              .map((team, index) => (
+                <CardTeam
+                  key={index}
+                  players={
+                    players.filter((player: any) => {
+                      return player.team === team.team;
+                    }) || []
+                  }
+                  title={team.team}
+                  description={team.description}
+                />
+              ))} */}
           {teamsRepeat.length > 0 &&
             teamsRepeat
-              .filter(async (team) => {
-                return await team.team
-                  .toLowerCase()
-                  .includes(search.toLowerCase());
+              .filter((team) => {
+                return team.team.toLowerCase().includes(search.toLowerCase());
               })
               .map((team, index) => (
                 <CardTeam
