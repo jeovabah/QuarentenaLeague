@@ -25,9 +25,10 @@ export const CardPlayer = ({ title, player }: Props) => {
       </Text>
       <Image
         objectFit={"cover"}
+        objectPosition={"top"}
         src={player?.link_url}
         alt={"Dan Abramov"}
-        boxSize={"5rem"}
+        boxSize={"7rem"}
         borderRadius={"50%"}
       />
     </Box>
