@@ -1,9 +1,15 @@
 import { Box } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { BottomTabBar } from "../TabBar";
 interface Props {
   children: React.ReactNode;
 }
 export const Container = ({ children, ...rest }: any) => {
+  const router = useRouter();
+  useEffect(() => {
+    console.log(router.pathname);
+  }, [router.pathname]);
   return (
     <Box
       p={"0 20px"}
@@ -16,7 +22,7 @@ export const Container = ({ children, ...rest }: any) => {
       {...rest}
     >
       {children}
-      <BottomTabBar />
+      {router.pathname !== "/" && <BottomTabBar />}
     </Box>
   );
 };
