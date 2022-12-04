@@ -5,6 +5,7 @@ import { Container } from "../../components/Container";
 import { Header } from "../../components/Header";
 import { get, ref } from "firebase/database";
 import { database } from "../../firebase/firebase";
+import { useGeralProvider } from "../../GeralProvider";
 interface PlayerProps {
   linl_url: string;
   player: string;
@@ -14,65 +15,62 @@ interface PlayerProps {
 
 export default function Teams() {
   const [search, setSearch] = useState("");
-  const [players, setPlayers] = useState<any>([]);
-  const [teams, setTeams] = useState<any[]>([]);
-  const [teamsRepeat, setTeamsRepeat] = useState<any[]>([]);
-  const [teamsNoReapeat, setTeamsNoReapeat] = useState<any[]>([]);
+  const { players, teams, teamsRepeat } = useGeralProvider();
 
-  async function readPlayerData() {
-    get(ref(database, "player/")).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const teams = Object.entries(data).map(([key, value]: any) => {
-          return {
-            player: value.player,
-            position: value.position,
-            link_url: value.link_url,
-            team: value.team,
-          };
-        });
-        setPlayers(teams);
-      } else {
-        console.log("No data available");
-      }
-    });
-  }
+  // async function readPlayerData() {
+  //   get(ref(database, "player/")).then((snapshot) => {
+  //     if (snapshot.exists()) {
+  //       const data = snapshot.val();
+  //       const teams = Object.entries(data).map(([key, value]: any) => {
+  //         return {
+  //           player: value.player,
+  //           position: value.position,
+  //           link_url: value.link_url,
+  //           team: value.team,
+  //         };
+  //       });
+  //       setPlayers(teams);
+  //     } else {
+  //       console.log("No data available");
+  //     }
+  //   });
+  // }
 
-  async function readTeamData() {
-    get(ref(database, "team/")).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const teamsAll = Object.entries(data).map(([key, value]: any) => {
-          return {
-            team: value.team,
-          };
-        });
-        setTeams(teamsAll);
-      } else {
-        console.log("No data available");
-      }
-    });
-  }
+  // async function readTeamData() {
+  //   get(ref(database, "team/")).then((snapshot) => {
+  //     if (snapshot.exists()) {
+  //       const data = snapshot.val();
+  //       const teamsAll = Object.entries(data).map(([key, value]: any) => {
+  //         return {
+  //           team: value.team,
+  //         };
+  //       });
+  //       setTeams(teamsAll);
+  //     } else {
+  //       console.log("No data available");
+  //     }
+  //   });
+  // }
 
-  useEffect(() => {
-    readTeamData();
-  }, []);
+  // useEffect(() => {
+  //   readTeamData();
+  // }, []);
 
-  useEffect(() => {
-    readPlayerData();
-  }, []);
+  // useEffect(() => {
+  //   readPlayerData();
+  // }, []);
 
-  const filterTeamsWithPlayersCadastred = () => {
-    const teamsWithPlayersCadastred = teams.filter((team) => {
-      return players.some((player: any) => {
-        return player.team === team.team;
-      });
-    });
-    setTeamsRepeat(teamsWithPlayersCadastred);
-  };
-  useEffect(() => {
-    filterTeamsWithPlayersCadastred();
-  }, [teams]);
+  // const filterTeamsWithPlayersCadastred = () => {
+  //   const teamsWithPlayersCadastred = teams.filter((team) => {
+  //     return players.some((player: any) => {
+  //       return player.team === team.team;
+  //     });
+  //   });
+  //   setTeamsRepeat(teamsWithPlayersCadastred);
+  // };
+  // useEffect(() => {
+  //   filterTeamsWithPlayersCadastred();
+  // }, [teams]);
 
   return (
     <>
@@ -123,10 +121,10 @@ export default function Teams() {
               ))} */}
           {teamsRepeat.length > 0 &&
             teamsRepeat
-              .filter((team) => {
+              .filter((team: any) => {
                 return team.team.toLowerCase().includes(search.toLowerCase());
               })
-              .map((team, index) => (
+              .map((team: any, index: number) => (
                 <CardTeam
                   key={index}
                   players={
