@@ -10,71 +10,14 @@ import { CardTeam } from "../../components/CardTeam";
 import { Container } from "../../components/Container";
 import { database } from "../../firebase/firebase";
 import { BottomTabBar } from "../../components/TabBar";
+import { useGeralProvider } from "../../GeralProvider";
 export default function Album() {
+  const { players, teams, teamsRepeat } = useGeralProvider();
   const [search, setSearch] = useState("");
-  const [players, setPlayers] = useState<any>([]);
-  const [teams, setTeams] = useState<any[]>([]);
-  const [teamsRepeat, setTeamsRepeat] = useState<any[]>([]);
+  // const [players, setPlayers] = useState<any>([]);
+  // const [teams, setTeams] = useState<any[]>([]);
+  // const [teamsRepeat, setTeamsRepeat] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  async function readPlayerData() {
-    setLoading(true);
-    get(ref(database, "player/")).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const teams = Object.entries(data).map(([key, value]: any) => {
-          return {
-            player: value.player,
-            position: value.position,
-            link_url: value.link_url,
-            team: value.team,
-          };
-        });
-        setLoading(false);
-        setPlayers(teams);
-      } else {
-        console.log("No data available");
-      }
-    });
-  }
-
-  async function readTeamData() {
-    setLoading(true);
-    get(ref(database, "team/")).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const teamsAll = Object.entries(data).map(([key, value]: any) => {
-          return {
-            team: value.team,
-          };
-        });
-        setLoading(false);
-        setTeams(teamsAll);
-      } else {
-        console.log("No data available");
-      }
-    });
-  }
-
-  useEffect(() => {
-    readTeamData();
-  }, []);
-
-  useEffect(() => {
-    readPlayerData();
-  }, []);
-
-  const filterTeamsWithPlayersCadastred = () => {
-    const teamsWithPlayersCadastred = teams.filter((team) => {
-      return players.some((player: any) => {
-        return player.team === team.team;
-      });
-    });
-    setTeamsRepeat(teamsWithPlayersCadastred);
-  };
-  useEffect(() => {
-    filterTeamsWithPlayersCadastred();
-  }, [teams]);
 
   return (
     <Box
@@ -101,10 +44,10 @@ export default function Album() {
       {teamsRepeat.length > 0 && (
         <Slide easing="ease" autoplay={false}>
           {teamsRepeat
-            .filter((team) => {
+            .filter((team: any) => {
               return team.team.toLowerCase().includes(search.toLowerCase());
             })
-            .map((team, index) => (
+            .map((team: any, index: any) => (
               <CardStickerAlbum
                 key={index}
                 players={
