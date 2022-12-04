@@ -17,17 +17,6 @@ export const CardPlayer = ({ title, player }: Props) => {
       borderBottom={"1px solid var(--primary)"}
       display={"flex"}
       alignItems={"center"}
-      onClick={() => {
-        router.push(`/sharePhoto`, {
-          pathname: `/sharePhoto`,
-          query: {
-            link_url: player.link_url,
-            position: player.position,
-            team: player.team,
-            name: title,
-          },
-        });
-      }}
       justifyContent={"space-between"}
     >
       <Text fontWeight={600} color={"white"}>
