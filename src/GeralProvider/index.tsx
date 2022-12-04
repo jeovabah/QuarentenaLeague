@@ -63,23 +63,21 @@ export const GeralProviderProvider = ({ children }: any) => {
     readPlayerData();
   }, []);
 
-  const filterTeamsWithPlayersCadastred = () => {
-    const teamsWithPlayersCadastred = teams.filter((team) => {
+  const filterTeamsWithPlayersCadastred = (teams: any, players: any) => {
+    const teamsWithPlayersCadastred = teams.filter((team: any) => {
       return players.some((player: any) => {
         return player.team === team.team;
       });
     });
     setTeamsRepeat(teamsWithPlayersCadastred);
   };
-  useEffect(() => {
-    filterTeamsWithPlayersCadastred();
-  }, [teams]);
   return (
     <GeralProviderContext.Provider
       value={{
         players,
         teams,
         teamsRepeat,
+        filterTeamsWithPlayersCadastred,
       }}
     >
       {children}

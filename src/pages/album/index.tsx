@@ -12,12 +12,17 @@ import { database } from "../../firebase/firebase";
 import { BottomTabBar } from "../../components/TabBar";
 import { useGeralProvider } from "../../GeralProvider";
 export default function Album() {
-  const { players, teams, teamsRepeat } = useGeralProvider();
+  const { players, teams, teamsRepeat, filterTeamsWithPlayersCadastred } =
+    useGeralProvider();
   const [search, setSearch] = useState("");
   // const [players, setPlayers] = useState<any>([]);
   // const [teams, setTeams] = useState<any[]>([]);
   // const [teamsRepeat, setTeamsRepeat] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    filterTeamsWithPlayersCadastred(teams, players);
+  }, [teams, players]);
 
   return (
     <Box

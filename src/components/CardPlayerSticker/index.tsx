@@ -20,6 +20,7 @@ export const CardPlayerSticker = ({ player }: any) => {
       </Text>
       <Image
         objectFit={"cover"}
+        objectPosition={"top"}
         src={player?.link_url}
         alt={player?.player}
         boxSize={"8rem"}

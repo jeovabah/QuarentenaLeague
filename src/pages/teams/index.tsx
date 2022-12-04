@@ -15,7 +15,12 @@ interface PlayerProps {
 
 export default function Teams() {
   const [search, setSearch] = useState("");
-  const { players, teams, teamsRepeat } = useGeralProvider();
+  const { players, teams, teamsRepeat, filterTeamsWithPlayersCadastred } =
+    useGeralProvider();
+
+  useEffect(() => {
+    filterTeamsWithPlayersCadastred(teams, players);
+  }, [teams, players]);
 
   // async function readPlayerData() {
   //   get(ref(database, "player/")).then((snapshot) => {
