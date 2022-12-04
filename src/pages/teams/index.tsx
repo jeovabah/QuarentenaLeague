@@ -76,7 +76,7 @@ export default function Teams() {
 
   return (
     <>
-      <Header title="Times Cadastrados" />
+      <Header title="Seleções" />
       <Container>
         {teamsRepeat.length == 0 && (
           <Spinner

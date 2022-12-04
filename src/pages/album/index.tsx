@@ -98,29 +98,25 @@ export default function Album() {
           size="xl"
         />
       )}
-      {!loading &&
-        teamsRepeat.length > 0 &&
-        teams.length > 0 &&
-        players.length > 0 && (
-          <Slide easing="ease" autoplay={false}>
-            {teamsRepeat.length > 0 &&
-              teamsRepeat
-                .filter((team) => {
-                  return team.team.toLowerCase().includes(search.toLowerCase());
-                })
-                .map((team, index) => (
-                  <CardStickerAlbum
-                    key={index}
-                    players={
-                      players.filter((player: any) => {
-                        return player.team === team.team;
-                      }) || []
-                    }
-                    team={team.team}
-                  />
-                ))}
-          </Slide>
-        )}
+      {teamsRepeat.length > 0 && (
+        <Slide easing="ease" autoplay={false}>
+          {teamsRepeat
+            .filter((team) => {
+              return team.team.toLowerCase().includes(search.toLowerCase());
+            })
+            .map((team, index) => (
+              <CardStickerAlbum
+                key={index}
+                players={
+                  players.filter((player: any) => {
+                    return player.team === team.team;
+                  }) || []
+                }
+                team={team.team}
+              />
+            ))}
+        </Slide>
+      )}
       <BottomTabBar />
     </Box>
   );
