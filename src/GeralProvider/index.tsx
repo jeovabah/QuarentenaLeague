@@ -73,7 +73,7 @@ export const GeralProviderProvider = ({ children }: any) => {
   };
   useEffect(() => {
     filterTeamsWithPlayersCadastred();
-  }, [teams, players, teamsRepeat]);
+  }, [teams]);
   return (
     <GeralProviderContext.Provider
       value={{
