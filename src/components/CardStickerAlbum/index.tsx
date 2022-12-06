@@ -21,7 +21,11 @@ export const CardStickerAlbum = ({ players, team }: any) => {
       boxShadow={"0px 0px 10px rgba(0, 0, 0, 0.25)"}
     >
       <Flex alignItems={"center"}>
-        <Text color={switchCaseColor(team)} fontWeight={600}>
+        <Text
+          color={switchCaseColor(team)}
+          fontSize={"1.5rem"}
+          fontWeight={600}
+        >
           {team}
         </Text>
         <Image

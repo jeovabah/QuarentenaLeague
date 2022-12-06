@@ -7,7 +7,7 @@ export const switchCaseColor = (team: string) => {
     case "Brasil":
       return "black";
     case "França ":
-      return "black";
+      return "white";
     default:
       return "white";
   }
