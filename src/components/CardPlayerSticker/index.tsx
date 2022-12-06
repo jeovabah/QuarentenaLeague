@@ -1,6 +1,7 @@
 import { Box, Image, Text } from "@chakra-ui/react";
+import { switchCaseColor } from "../../utils/Helper";
 
-export const CardPlayerSticker = ({ player }: any) => {
+export const CardPlayerSticker = ({ player, team }: any) => {
   return (
     <Box
       w={"48%"}
@@ -14,7 +15,12 @@ export const CardPlayerSticker = ({ player }: any) => {
       alignItems={"center"}
       justifyContent={"space-between"}
     >
-      <Text fontWeight={600} color={"white"} mt="1rem" mb="0.5rem">
+      <Text
+        fontWeight={600}
+        color={switchCaseColor(team)}
+        mt="1rem"
+        mb="0.5rem"
+      >
         {player?.player} <br />
       </Text>
       <Image
@@ -25,7 +31,7 @@ export const CardPlayerSticker = ({ player }: any) => {
         boxSize={"8rem"}
         borderRadius={"25%"}
       />
-      <Text fontWeight={400} color={"white"} mt="0.5rem">
+      <Text fontWeight={400} color={switchCaseColor(team)} mt="0.5rem">
         {player?.position} <br />
       </Text>
     </Box>
