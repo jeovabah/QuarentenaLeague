@@ -105,7 +105,7 @@ export default function Teams() {
 
   return (
     <>
-      <Header title="Seleções" />
+      <Header title="Tabela" />
       <Container>
         {teamsRepeat.length == 0 && (
           <Spinner
