@@ -1,5 +1,5 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { switchCase } from "../../utils/Helper";
+import { switchCase, switchCaseTeams } from "../../utils/Helper";
 
 export const CardChallenger = ({ data }: any) => {
   return (
@@ -20,7 +20,7 @@ export const CardChallenger = ({ data }: any) => {
             width={8}
             objectFit="cover"
             height={8}
-            src={switchCase(data?.team)}
+            src={switchCaseTeams(data?.team.replace(" ", ""))}
           />
         </Text>{" "}
       </Box>
@@ -39,13 +39,12 @@ export const CardChallenger = ({ data }: any) => {
       <Box>
         {" "}
         <Text color={"#fff"} display="flex">
-          {/* {data?.teamRival}{" "} */}
           <Image
             ml={"1rem"}
             width={8}
             objectFit="cover"
             height={8}
-            src={switchCase(data?.teamRival)}
+            src={switchCaseTeams(data?.teamRival.replace(" ", ""))}
           />
         </Text>
       </Box>

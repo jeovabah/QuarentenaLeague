@@ -91,7 +91,6 @@ export default function Teams() {
             goalTeamRival: value.goalTeamRival,
           };
         });
-        console.log("confront", confront);
         setConfront(confront);
       } else {
         console.log("No data available");
