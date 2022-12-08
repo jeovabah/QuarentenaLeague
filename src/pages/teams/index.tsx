@@ -3,9 +3,10 @@ import { Box, Input, Spinner, Text } from "@chakra-ui/react";
 import { CardTeam } from "../../components/CardTeam";
 import { Container } from "../../components/Container";
 import { Header } from "../../components/Header";
-import { get, ref } from "firebase/database";
+import { get, ref, set } from "firebase/database";
 import { database } from "../../firebase/firebase";
 import { useGeralProvider } from "../../GeralProvider";
+import { CardChallenger } from "../../components/CardChallenge";
 interface PlayerProps {
   linl_url: string;
   player: string;
@@ -15,6 +16,7 @@ interface PlayerProps {
 
 export default function Teams() {
   const [search, setSearch] = useState("");
+  const [confront, setConfront] = useState<any>([]);
   const { players, teams, teamsRepeat, filterTeamsWithPlayersCadastred } =
     useGeralProvider();
 
@@ -77,6 +79,30 @@ export default function Teams() {
   //   filterTeamsWithPlayersCadastred();
   // }, [teams]);
 
+  async function getConfront() {
+    get(ref(database, "confront/")).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const confront = Object.entries(data).map(([key, value]: any) => {
+          return {
+            team: value.team,
+            teamRival: value.teamRival,
+            goalTeam: value.goalTeam,
+            goalTeamRival: value.goalTeamRival,
+          };
+        });
+        console.log("confront", confront);
+        setConfront(confront);
+      } else {
+        console.log("No data available");
+      }
+    });
+  }
+
+  useEffect(() => {
+    getConfront();
+  }, []);
+
   return (
     <>
       <Header title="Seleções" />
@@ -107,6 +133,11 @@ export default function Teams() {
           />
         </Box>
         <Box mt="20px" display={"grid"} gap={"1rem"} marginBottom={"80px"}>
+          <Box alignItems={"center"} justifyContent="center">
+            <Text textAlign={"center"} fontWeight={"bold"} color={"white"}>
+              10/12/22
+            </Text>
+          </Box>
           {/* {teams.length > 0 &&
             teams
               .filter((team) => {
@@ -124,7 +155,7 @@ export default function Teams() {
                   description={team.description}
                 />
               ))} */}
-          {teamsRepeat.length > 0 &&
+          {/* {teamsRepeat.length > 0 &&
             teamsRepeat
               .filter((team: any) => {
                 return team.team.toLowerCase().includes(search.toLowerCase());
@@ -140,7 +171,11 @@ export default function Teams() {
                   title={team.team}
                   description={team.description}
                 />
-              ))}
+              ))} */}
+          {confront.length > 0 &&
+            confront.map((item: any, index: number) => {
+              return <CardChallenger key={index} data={item} />;
+            })}
         </Box>
       </Container>
     </>

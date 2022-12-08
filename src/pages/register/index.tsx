@@ -50,6 +50,12 @@ export default function RegisterPlayer() {
 
   const [players, setPlayers] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [confront, setConfront] = useState({
+    team: "",
+    teamRival: "",
+    goalTeam: "",
+    goalTeamRival: "",
+  });
   async function readPlayerData() {
     setLoading(true);
     await get(ref(database, "player/")).then((snapshot) => {
@@ -88,6 +94,30 @@ export default function RegisterPlayer() {
     }
   }
 
+  async function writeConfront(confront: any) {
+    // increment id
+    if (confront !== "") {
+      await set(
+        ref(database, "confront/" + confront.team + confront.teamRival),
+        {
+          team: confront.team,
+          teamRival: confront.teamRival,
+          goalTeam: confront.goalTeam,
+          goalTeamRival: confront.goalTeamRival,
+        }
+      );
+      alert("Time cadastrado com sucesso!");
+      setConfront({
+        team: "",
+        teamRival: "",
+        goalTeam: "",
+        goalTeamRival: "",
+      });
+    } else {
+      alert("Preencha todos os campos");
+    }
+  }
+
   async function readTeamData() {
     get(ref(database, "team/")).then((snapshot) => {
       if (snapshot.exists()) {
@@ -117,7 +147,7 @@ export default function RegisterPlayer() {
     <>
       <Header title="Registrar Jogador" />
 
-      <Container>
+      <Box>
         <Box>
           <Input
             placeholder="Nome"
@@ -127,14 +157,6 @@ export default function RegisterPlayer() {
             value={player.name}
             size="lg"
           />
-          {/* <Input
-            placeholder="Time"
-            onChange={(e: any) =>
-              setPlayer({ ...player, team: e.target.value })
-            }
-            value={player.team}
-            size="lg"
-          /> */}
           <Select
             onChange={(e: any) =>
               setPlayer({ ...player, team: e.target.value })
@@ -268,7 +290,61 @@ export default function RegisterPlayer() {
             Criar Time
           </Button>
         </Box>
-      </Container>
+
+        <Box mt="1rem" mb="1rem" w={"100%"}>
+          <Header title="Cadastrar Confronto" />
+          <Input
+            placeholder="Time da casa"
+            onChange={(e: any) =>
+              setConfront({
+                ...confront,
+                team: e.target.value,
+              })
+            }
+            value={confront.team}
+            size="lg"
+          />
+          <Input
+            placeholder="Gol da Casa"
+            onChange={(e: any) =>
+              setConfront({
+                ...confront,
+                goalTeam: e.target.value,
+              })
+            }
+            value={confront.goalTeam}
+            size="lg"
+          />
+
+          <Input
+            placeholder="Time de Rival"
+            onChange={(e: any) =>
+              setConfront({
+                ...confront,
+                teamRival: e.target.value,
+              })
+            }
+            value={confront.teamRival}
+            size="lg"
+          />
+
+          <Input
+            placeholder="Gol do Rival"
+            onChange={(e: any) =>
+              setConfront({
+                ...confront,
+                goalTeamRival: e.target.value,
+              })
+            }
+            value={confront.goalTeamRival}
+            size="lg"
+          />
+
+          <Button w={"100%"} size="lg" onClick={() => writeConfront(confront)}>
+            Criar Confronto
+          </Button>
+        </Box>
+      </Box>
     </>
   );
 }
