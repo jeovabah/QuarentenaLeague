@@ -9,6 +9,7 @@ export const CardChallenger = ({ data }: any) => {
       justifyContent="space-between"
       borderRadius={10}
       mt="1rem"
+      alignItems="center"
     >
       <Box>
         {" "}
